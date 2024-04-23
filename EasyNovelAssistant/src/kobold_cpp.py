@@ -110,12 +110,18 @@ popd
         if not os.path.exists(llm_path):
             print(f"{llm_path} がありません。")
             return
-
-        command = ["start", f"{llm_name} L{gpu_layer}", "cmd", "/c"]
-        command.append(
-            f'{Path.kobold_cpp_exe} {self.ctx["koboldcpp_arg"]} --gpulayers {gpu_layer} --contextsize {llm["context_size"]} {llm_path} || pause'
-        )
-        subprocess.run(command, shell=True)
+        
+        command_args =  f"{self.ctx['koboldcpp_arg']} --gpulayers {gpu_layer} --contextsize {llm['context_size']} {llm_path}"
+        from sys import platform
+        if platform == "win32":
+            command = ["start", f"{llm_name} L{gpu_layer}", "cmd", "/c"]
+            command.append(f'{Path.kobold_cpp_exe} {command_args} || pause')
+            subprocess.run(command, shell=True)
+        elif platform == "linux" or platform == "linux2":
+            command = f"{Path.kobold_cpp_linux} {command_args}"
+            subprocess.Popen(command, shell=True)
+        else:
+            print("未対応のOSです。")
 
     def generate(self, text):
         ctx = self.ctx
