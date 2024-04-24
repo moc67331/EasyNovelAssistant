@@ -1,6 +1,7 @@
 ﻿import json
 import os
 import subprocess
+from sys import platform
 
 import requests
 from path import Path
@@ -110,18 +111,17 @@ popd
         if not os.path.exists(llm_path):
             print(f"{llm_path} がありません。")
             return
-        
-        command_args =  f"{self.ctx['koboldcpp_arg']} --gpulayers {gpu_layer} --contextsize {llm['context_size']} {llm_path}"
-        from sys import platform
+
+        command_args = (
+            f'{self.ctx["koboldcpp_arg"]} --gpulayers {gpu_layer} --contextsize {llm["context_size"]} {llm_path}'
+        )
         if platform == "win32":
             command = ["start", f"{llm_name} L{gpu_layer}", "cmd", "/c"]
-            command.append(f'{Path.kobold_cpp_exe} {command_args} || pause')
+            command.append(f"{Path.kobold_cpp_win} {command_args} || pause")
             subprocess.run(command, shell=True)
-        elif platform == "linux" or platform == "linux2":
+        else:
             command = f"{Path.kobold_cpp_linux} {command_args}"
             subprocess.Popen(command, shell=True)
-        else:
-            print("未対応のOSです。")
 
     def generate(self, text):
         ctx = self.ctx
