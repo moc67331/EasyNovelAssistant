@@ -8,6 +8,9 @@ from menu.gen_menu import GenMenu
 from menu.help_menu import HelpMenu
 from menu.model_menu import ModelMenu
 from menu.sample_menu import SampleMenu
+from menu.setting_menu import SettingMenu
+from menu.speech_menu import SpeechMenu
+from menu.tool_menu import ToolMenu
 from output_area import OutputArea
 from tkinterdnd2 import DND_FILES, TkinterDnD
 
@@ -28,7 +31,7 @@ class Form:
             win_geom += f'+{ctx["win_x"]}+{self.ctx["win_y"]}'
         self.win.geometry(win_geom)
         self.win.protocol("WM_DELETE_WINDOW", self.ctx.finalize)
-        self.win.dnd_bind("<<Drop>>", lambda e: self.ctx.dnd_file(e))
+        self.win.dnd_bind("<<Drop>>", lambda e: self.file_menu.dnd_file(e))
 
         self.menu_bar = tk.Menu(self.win)
         self.win.config(menu=self.menu_bar)
@@ -36,7 +39,10 @@ class Form:
         self.file_menu = FileMenu(self, ctx)
         self.model_menu = ModelMenu(self, ctx)
         self.gen_menu = GenMenu(self, ctx)
+        self.speech_menu = SpeechMenu(self, ctx)
+        self.setting_menu = SettingMenu(self, ctx)
         self.sample_menu = SampleMenu(self, ctx)
+        self.tool_menu = ToolMenu(self, ctx)
         self.help_menu = HelpMenu(self, ctx)
 
         self.pane_h = tk.PanedWindow(self.win, orient=tk.HORIZONTAL, sashpad=2)

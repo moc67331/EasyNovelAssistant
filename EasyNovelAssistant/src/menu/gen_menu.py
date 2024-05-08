@@ -11,7 +11,7 @@ class GenMenu:
         self.menu.configure(postcommand=self.on_menu_open)
 
         self.form.win.bind("<Shift-F5>", lambda e: self._set_enabled(not self.ctx.generator.enabled))
-        self.form.win.bind("<F5>", lambda e: self.ctx.generator.abort())
+        self.form.win.bind("<F5>", lambda e: self._abort())
 
     def _set_enabled(self, enabled):
         self.ctx.generator.enabled = enabled
@@ -19,6 +19,10 @@ class GenMenu:
         self.ctx.form.update_title()
         if not enabled:
             self.ctx.generator.abort()
+
+    def _abort(self):
+        self.ctx.generator.abort()
+        self.ctx.style_bert_vits2.abort()
 
     def on_menu_open(self):
         self.menu.delete(0, tk.END)
@@ -40,7 +44,11 @@ class GenMenu:
         self.max_length_menu = tk.Menu(self.menu, tearoff=False)
         self.menu.add_cascade(label=f'生成文の長さ: {self.ctx["max_length"]}', menu=self.max_length_menu)
 
+        llm = self.ctx.llm[self.ctx["llm_name"]]
+        max_context_length = min(llm["context_size"], self.ctx["llm_context_size"])
         for max_length in self.ctx["max_lengths"]:
+            if max_length >= max_context_length:
+                break
             check_var = tk.BooleanVar(value=self.ctx["max_length"] == max_length)
             self.max_length_menu.add_checkbutton(
                 label=max_length, variable=check_var, command=lambda gl=max_length, _=check_var: set_max_length(gl)

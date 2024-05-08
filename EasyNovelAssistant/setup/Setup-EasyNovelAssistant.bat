@@ -2,7 +2,7 @@
 chcp 65001 > NUL
 pushd %~dp0..\..
 set PS_CMD=PowerShell -Version 5.1 -ExecutionPolicy Bypass
-set CURL_CMD=C:\Windows\System32\curl.exe --ssl-no-revoke
+set CURL_CMD=C:\Windows\System32\curl.exe -k
 
 set APP_VENV_DIR=venv
 set KOBOLD_CPP_DIR=KoboldCpp
@@ -41,9 +41,9 @@ if not exist koboldcpp.exe (
 	if !errorlevel! neq 0 ( pause & popd & exit /b 1 )
 )
 
-if not exist LightChatAssistant-TypeB-2x7B_iq4xs_imatrix.gguf (
-	echo %CURL_CMD% -LO https://huggingface.co/Sdff-Ltba/LightChatAssistant-TypeB-2x7B-GGUF/resolve/main/LightChatAssistant-TypeB-2x7B_iq4xs_imatrix.gguf
-	%CURL_CMD% -LO https://huggingface.co/Sdff-Ltba/LightChatAssistant-TypeB-2x7B-GGUF/resolve/main/LightChatAssistant-TypeB-2x7B_iq4xs_imatrix.gguf
+if not exist Vecteus-v1-IQ4_XS.gguf (
+	echo %CURL_CMD% -LO https://huggingface.co/mmnga/Vecteus-v1-gguf/resolve/main/Vecteus-v1-IQ4_XS.gguf
+	%CURL_CMD% -LO https://huggingface.co/mmnga/Vecteus-v1-gguf/resolve/main/Vecteus-v1-IQ4_XS.gguf
 	if !errorlevel! neq 0 ( pause & popd & exit /b 1 )
 )
 

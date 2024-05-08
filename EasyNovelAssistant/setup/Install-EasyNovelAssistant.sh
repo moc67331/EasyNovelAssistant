@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 requirements_command=("curl" "git" "tar" "python")
 
@@ -15,21 +15,44 @@ if [ "$flag_not_found" = true ]; then
     exit 1
 fi
 
+if ! python -c "import tkinter" &> /dev/null; then
+    echo "[ERROR] tkintr が見つかりません。お使いのパッケージマネージャで「python3-tk」をインストールしてください。"
+    exit 1
+fi
+
+GITHUB="Zuntan03"
 APP_NAME="EasyNovelAssistant"
 APP_VENV_DIR="venv"
-CLONE_URL="https://github.com/Zuntan03/EasyNovelAssistant"
+CLONE_URL="https://github.com/"$GITHUB"/EasyNovelAssistant"
 
-if [ -d "$APP_VENV_DIR" ]; then
-    echo "https://github.com/Zuntan03/EasyNovelAssistant"
+if [ ! -d "$APP_VENV_DIR" ]; then
+    echo "https://github.com/"$GITHUB"/EasyNovelAssistant"
     echo "https://github.com/LostRuins/koboldcpp"
+    echo "https://github.com/litagin02/Style-Bert-VITS2"
+    echo "https://github.com/BtbN/FFmpeg-Builds"
     echo
     echo "https://huggingface.co/Sdff-Ltba/LightChatAssistant-TypeB-2x7B-GGUF"
-    echo "https://huggingface.co/Sdff-Ltba/LightChatAssistant-2x7B-GGUF"
+    echo "https://huggingface.co/mmnga/Vecteus-v1-gguf"
+    echo "https://huggingface.co/mmnga/Ninja-v1-NSFW-128k-gguf"
+    echo "https://huggingface.co/mmnga/Ninja-v1-128k-gguf"
     echo "https://huggingface.co/Aratako/LightChatAssistant-4x7B-GGUF"
+
+    echo "https://huggingface.co/Aratako/SniffyOtter-7B-Novel-Writing-NSFW-GGUF"
+    echo "https://huggingface.co/Aratako/Antler-7B-Novel-Writing-GGUF"
+
+    echo "https://huggingface.co/Sdff-Ltba/LightChatAssistant-2x7B-GGUF"
+
+    echo "https://huggingface.co/TFMC/Japanese-Starling-ChatV-7B-GGUF"
+    echo "https://huggingface.co/mmnga/umiyuki-Japanese-Chat-Umievo-itr001-7b-gguf"
+    echo "https://huggingface.co/Elizezen/SniffyOtter-7B-GGUF"
+
     echo "https://huggingface.co/andrewcanis/c4ai-command-r-v01-GGUF"
     echo "https://huggingface.co/dranger003/c4ai-command-r-plus-iMat.GGUF"
     echo "https://huggingface.co/pmysl/c4ai-command-r-plus-GGUF"
     echo
+    echo "https://huggingface.co/RinneAi/Rinne_Style-Bert-VITS2"
+    echo
+    echo "未成年の方はインストール禁止です。"
     echo "以上の配布元から関連ファイルをダウンロードして利用します。"
     read -p "よろしいですか？ [y/n] " YES_OR_NO
     if [ "$YES_OR_NO" != "y" ]; then
@@ -49,7 +72,7 @@ cd $APP_NAME
 chmod +x $APP_NAME/setup/Setup-$APP_NAME.sh
 $APP_NAME/setup/Setup-$APP_NAME.sh
 
-chmod +x 
+chmod +x ./Run-$APP_NAME.sh
 ./Run-$APP_NAME.sh
 
 cd -

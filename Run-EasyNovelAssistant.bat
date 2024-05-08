@@ -1,25 +1,30 @@
 @echo off
 chcp 65001 > NUL
-set CURL_CMD=C:\Windows\System32\curl.exe --ssl-no-revoke
+set CURL_CMD=C:\Windows\System32\curl.exe -k
 
 if not exist %~dp0sample\ ( mkdir %~dp0sample )
 pushd %~dp0sample
 
-echo %CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/tutorial.json
-%CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/tutorial.json
+echo %CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/special.json
+%CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/special.json
+if %errorlevel% neq 0 ( pause & popd & exit /b 1 )
+
+echo %CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/template.json
+%CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/template.json
 if %errorlevel% neq 0 ( pause & popd & exit /b 1 )
 
 echo %CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/sample.json
 %CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/sample.json
 if %errorlevel% neq 0 ( pause & popd & exit /b 1 )
 
-setlocal enabledelayedexpansion
-if exist nsfw.json (
-	echo %CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/nsfw.json
-	%CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/nsfw.json
-	if !errorlevel! neq 0 ( pause & popd & exit /b 1 )
-)
-endlocal
+echo %CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/nsfw.json
+%CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/nsfw.json
+if %errorlevel% neq 0 ( pause & popd & exit /b 1 )
+
+echo %CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/speech.json
+%CURL_CMD% -sLO https://yyy.wpx.jp/EasyNovelAssistant/sample/speech.json
+if %errorlevel% neq 0 ( pause & popd & exit /b 1 )
+
 popd
 
 pushd %~dp0

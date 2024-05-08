@@ -27,20 +27,38 @@ if "!CURRENT_PATH: =!" neq "%CURRENT_PATH%" (
 	pause & popd & exit /b 1
 )
 
-if exist %APP_VENV_DIR%\ (
+if not exist %APP_VENV_DIR%\ (
 	echo https://www.python.org
 	echo https://github.com/pypa/get-pip
 	echo https://github.com/git-for-windows
 	echo https://github.com/Zuntan03/EasyNovelAssistant
 	echo https://github.com/LostRuins/koboldcpp
+	echo https://github.com/litagin02/Style-Bert-VITS2
+	echo https://github.com/BtbN/FFmpeg-Builds
 	echo.
 	echo https://huggingface.co/Sdff-Ltba/LightChatAssistant-TypeB-2x7B-GGUF
-	echo https://huggingface.co/Sdff-Ltba/LightChatAssistant-2x7B-GGUF
+	echo https://huggingface.co/mmnga/Vecteus-v1-gguf
+	echo https://huggingface.co/mmnga/Ninja-v1-NSFW-128k-gguf
+	echo https://huggingface.co/mmnga/Ninja-v1-128k-gguf
 	echo https://huggingface.co/Aratako/LightChatAssistant-4x7B-GGUF
+
+	echo https://huggingface.co/Aratako/SniffyOtter-7B-Novel-Writing-NSFW-GGUF
+	echo https://huggingface.co/Aratako/Antler-7B-Novel-Writing-GGUF
+
+	echo https://huggingface.co/Sdff-Ltba/LightChatAssistant-2x7B-GGUF
+
+	echo https://huggingface.co/TFMC/Japanese-Starling-ChatV-7B-GGUF
+	echo https://huggingface.co/mmnga/umiyuki-Japanese-Chat-Umievo-itr001-7b-gguf
+	echo https://huggingface.co/Elizezen/SniffyOtter-7B-GGUF
+
 	echo https://huggingface.co/andrewcanis/c4ai-command-r-v01-GGUF
 	echo https://huggingface.co/dranger003/c4ai-command-r-plus-iMat.GGUF
 	echo https://huggingface.co/pmysl/c4ai-command-r-plus-GGUF
 	echo.
+	echo https://huggingface.co/kaunista/kaunista-style-bert-vits2-models
+	echo https://huggingface.co/RinneAi/Rinne_Style-Bert-VITS2
+	echo.
+	echo "未成年の方はインストール禁止です。"
 	echo "以上の配布元から関連ファイルをダウンロードして利用します（URL を Ctrl + クリックで開けます）。"
 	echo よろしいですか？ [y/n]
 	set /p YES_OR_NO=
@@ -53,8 +71,8 @@ if !errorlevel! neq 0 (
 	if not exist %PORTABLE_GIT_DIR% (
 		if not exist %APP_LIB_DIR%\ ( mkdir %APP_LIB_DIR% )
 
-		echo %CURL_CMD% --ssl-no-revoke -Lo %APP_LIB_DIR%\PortableGit.7z.exe https://github.com/git-for-windows/git/releases/download/v%PORTABLE_GIT_VER%.windows.1/PortableGit-%PORTABLE_GIT_VER%-64-bit.7z.exe
-		%CURL_CMD% --ssl-no-revoke -Lo %APP_LIB_DIR%\PortableGit.7z.exe https://github.com/git-for-windows/git/releases/download/v%PORTABLE_GIT_VER%.windows.1/PortableGit-%PORTABLE_GIT_VER%-64-bit.7z.exe
+		echo %CURL_CMD% -k -Lo %APP_LIB_DIR%\PortableGit.7z.exe https://github.com/git-for-windows/git/releases/download/v%PORTABLE_GIT_VER%.windows.1/PortableGit-%PORTABLE_GIT_VER%-64-bit.7z.exe
+		%CURL_CMD% -k -Lo %APP_LIB_DIR%\PortableGit.7z.exe https://github.com/git-for-windows/git/releases/download/v%PORTABLE_GIT_VER%.windows.1/PortableGit-%PORTABLE_GIT_VER%-64-bit.7z.exe
 		if !errorlevel! neq 0 ( pause & popd & exit /b 1 )
 
 		start "" %PS_CMD% -Command "Start-Sleep -Seconds 2; $title='Portable Git for Windows 64-bit'; $window=Get-Process | Where-Object { $_.MainWindowTitle -eq $title } | Select-Object -First 1; if ($window -ne $null) { [void][System.Reflection.Assembly]::LoadWithPartialName('Microsoft.VisualBasic'); [Microsoft.VisualBasic.Interaction]::AppActivate($window.Id); Start-Sleep -Seconds 1; Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait('{ENTER}') }"
@@ -67,17 +85,6 @@ if !errorlevel! neq 0 (
 		del %APP_LIB_DIR%\PortableGit.7z.exe
 		if !errorlevel! neq 0 ( pause & popd & exit /b 1 )
 	)
-
-	echo set "PATH=%PORTABLE_GIT_DIR%;%PATH%"
-	set "PATH=%PORTABLE_GIT_DIR%;%PATH%"
-
-	where /Q git
-	if !errorlevel! neq 0 (
-		echo [Error] git を自動インストールできませんでした。Git for Windows を手動でインストールしてください。
-		start https://gitforwindows.org/
-		pause & popd & exit /b 1
-	)
-	cd > NUL
 )
 
 if exist %PORTABLE_GIT_DIR% (
